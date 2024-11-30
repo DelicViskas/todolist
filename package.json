@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serv": "node serv.mjs",
+    "serv": "node --experimental-sqlite serv.mjs",
     "server": "npx json-server -d 1500 -p 3333 db.json",
     "dev": "next dev",
     "build": "next build",

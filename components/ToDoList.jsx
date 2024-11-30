@@ -5,7 +5,7 @@ import { fetcher } from "./f";
 import { useState } from "react";
 import Spinner from "./spinner/Spinner";
 
-const API_URL = 'http://localhost:3333/todo';
+const API_URL = 'http://localhost:8080/todos';
 
 export default function ToDoList() {
   const
@@ -28,6 +28,8 @@ export default function ToDoList() {
                 };
               return todo;
             });
+            console.log(id);
+            
             return fetch(API_URL + '/' + id, { method: 'DELETE' })
               .then(res => {
                 if (!res.ok)
@@ -52,7 +54,7 @@ export default function ToDoList() {
         }
       },
         promise = getPromise();
-      await mutate(promise.then(() => optimisticData, () => fetcher()), { optimisticData, revalidate: true });
+      await mutate(promise.then(() => optimisticData, () => fetcher(API_URL)), { optimisticData, revalidate: true });
     }
 
 
