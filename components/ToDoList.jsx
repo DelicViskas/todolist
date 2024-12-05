@@ -5,7 +5,7 @@ import { fetcher } from "./f";
 import { useState } from "react";
 import Spinner from "./spinner/Spinner";
 
-const API_URL = 'http://localhost:8080/todos';
+const API_URL = '/api/todos';
 
 export default function ToDoList() {
   const
@@ -28,7 +28,6 @@ export default function ToDoList() {
                 };
               return todo;
             });
-            console.log(id);
             
             return fetch(API_URL + '/' + id, { method: 'DELETE' })
               .then(res => {
@@ -37,10 +36,16 @@ export default function ToDoList() {
               });
               
           case 'add':
+            if (!valueInput.trim()) {
+              console.error("Input is empty, not sending request");
+              return; 
+            }
             const
-              newTodo = { body: valueInput , time: new Date()};
+              newTodo = { body: valueInput };
             optimisticData = data.concat(newTodo);
             setValueInput('');
+            console.log(JSON.stringify(newTodo));
+            
             return fetch(API_URL, {
               method: 'POST',
               headers: {
@@ -49,15 +54,14 @@ export default function ToDoList() {
               body: JSON.stringify(newTodo)
             }).then(res => {
               if (!res.ok)
-                throw (new Error(res.status + ' ' + res.statusText))
+                throw (new Error(res.status + ' ' + res.statusText));
             })
         }
       },
         promise = getPromise();
-      await mutate(promise.then(() => optimisticData, () => fetcher(API_URL)), { optimisticData, revalidate: true });
+      promise && await mutate(promise.then(() => optimisticData, () => fetcher(API_URL)), { optimisticData, revalidate: true });
     }
-
-
+    
   return <main onClick={onClick}>
     <FormToDo valueInput={valueInput} setValueInput={value => setValueInput(value)} />
     {data && <List data={data} />}

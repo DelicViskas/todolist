@@ -1,5 +1,4 @@
 import classes from '@/components/list/List.module.css'
-import Spinner from '../spinner/Spinner';
 
 export default function List({ data }) {
 

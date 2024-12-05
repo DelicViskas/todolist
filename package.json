@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serv": "node --experimental-sqlite serv.mjs",
-    "server": "npx json-server -d 1500 -p 3333 db.json",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "json-server": "^0.17.4",
+    "neonctl": "^2.4.0",
     "next": "15.0.3",
+    "pgshims": "github:neondatabase/serverless",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "swr": "^2.2.5"
